@@ -206,7 +206,7 @@ public class VoskFlutterPlugin implements FlutterPlugin, MethodCallHandler {
             try {
               speechService = new SpeechService(recognizersMap.get(recognizerId), sampleRate);
             } catch (IOException e) {
-              result.error("INITIALIZE_FAIL", e.getMessage(), null);
+              result.error("INITIALIZE_FAIL catched", e.getMessage(), null);
               break;
             }
           } else {
