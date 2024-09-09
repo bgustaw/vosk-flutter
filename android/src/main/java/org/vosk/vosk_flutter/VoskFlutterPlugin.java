@@ -210,8 +210,9 @@ public class VoskFlutterPlugin implements FlutterPlugin, MethodCallHandler {
               break;
             }
           } else {
+            //speechService = new SpeechService(recognizersMap.get(recognizerId), sampleRate);
             //result.error("INITIALIZE_FAIL", "SpeechService instance already exist.", null);
-            break;
+            //break;
           }
           result.success(null);
         }
