@@ -248,9 +248,6 @@ public class VoskFlutterPlugin implements FlutterPlugin, MethodCallHandler {
               result.error("INITIALIZE_FAIL", e.getMessage(), null);
               break;
             }
-          } else {
-            result.error("INITIALIZE_FAIL", "SpeechService instance already exist.", null);
-            break;
           }
           result.success(null);
         }
