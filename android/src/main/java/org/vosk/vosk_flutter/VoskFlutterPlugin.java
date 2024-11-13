@@ -248,6 +248,8 @@ public class VoskFlutterPlugin implements FlutterPlugin, MethodCallHandler {
               result.error("INITIALIZE_FAIL", e.getMessage(), null);
               break;
             }
+          } else {
+            speechService.reset();
           }
           result.success(null);
         }
