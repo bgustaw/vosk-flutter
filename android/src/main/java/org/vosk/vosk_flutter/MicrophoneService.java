@@ -175,8 +175,8 @@ public class MicrophoneService extends Service implements ServiceCallbacks {
         notificationManager.createNotificationChannel(channel);
         Notification notification = new NotificationCompat.Builder(this, channelId)
                 .setContentTitle(null)
-                .setContentInfo(null)
                 .setContentText(null)
+                .setUsesChronometer(true)
                 .build();
         ServiceCompat.startForeground(
                 this, // service
