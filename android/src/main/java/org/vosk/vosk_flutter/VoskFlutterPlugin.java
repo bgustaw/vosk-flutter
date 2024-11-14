@@ -1,5 +1,7 @@
 package org.vosk.vosk_flutter;
 
+import android.content.Context;
+
 import androidx.annotation.NonNull;
 import io.flutter.embedding.engine.plugins.FlutterPlugin;
 import io.flutter.plugin.common.MethodCall;
@@ -12,7 +14,7 @@ import java.util.Map;
 import java.util.TreeMap;
 import org.vosk.Model;
 import org.vosk.Recognizer;
-import org.vosk.android.SpeechService;
+//import org.vosk.android.SpeechService;
 import org.vosk.vosk_flutter.exceptions.MissingRequiredArgument;
 import org.vosk.vosk_flutter.exceptions.RecognizerNotFound;
 import org.vosk.vosk_flutter.exceptions.SpeechServiceNotFound;
@@ -31,15 +33,19 @@ public class VoskFlutterPlugin implements FlutterPlugin, MethodCallHandler {
   private final TreeMap<Integer, Recognizer> recognizersMap = new TreeMap<>();
 
   private MethodChannel channel;
-  private SpeechService speechService;
+  private MySpeechService speechService;
   private FlutterRecognitionListener recognitionListener;
+
+  private Context applicationContext;
 
   @Override
   public void onAttachedToEngine(@NonNull FlutterPluginBinding flutterPluginBinding) {
     channel = new MethodChannel(flutterPluginBinding.getBinaryMessenger(), "vosk_flutter");
     channel.setMethodCallHandler(this);
     recognitionListener = new FlutterRecognitionListener(flutterPluginBinding.getBinaryMessenger());
+    applicationContext = flutterPluginBinding.getApplicationContext();
   }
+
 
   @Override
   public void onMethodCall(@NonNull MethodCall call, @NonNull Result result) {
@@ -243,7 +249,7 @@ public class VoskFlutterPlugin implements FlutterPlugin, MethodCallHandler {
 
           if (speechService == null) {
             try {
-              speechService = new SpeechService(recognizersMap.get(recognizerId), sampleRate);
+              speechService = new MySpeechService(recognizersMap.get(recognizerId), sampleRate, applicationContext);
             } catch (IOException e) {
               result.error("INITIALIZE_FAIL", e.getMessage(), null);
               break;
@@ -370,6 +376,7 @@ public class VoskFlutterPlugin implements FlutterPlugin, MethodCallHandler {
   public void onDetachedFromEngine(@NonNull FlutterPluginBinding binding) {
     channel.setMethodCallHandler(null);
     recognitionListener.dispose();
+    applicationContext = null;
 
     if (speechService != null) {
       speechService.shutdown();
