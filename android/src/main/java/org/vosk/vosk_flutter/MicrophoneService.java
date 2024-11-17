@@ -83,7 +83,6 @@ public class MicrophoneService extends Service implements ServiceCallbacks {
             recorder.release();
             throw new IOException("Failed to initialize recorder. Microphone might be already in use.");
         }
-        Log.d("INIT PARAMS", "set params");
     }
 
     /// INTERFACE FUNCTIONS
@@ -154,7 +153,6 @@ public class MicrophoneService extends Service implements ServiceCallbacks {
 
     @Override
     public void onCreate() {
-        Log.d("GeoTerenowy", "OnCreate foreground service");
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             startForegroundService();
         }
@@ -176,7 +174,6 @@ public class MicrophoneService extends Service implements ServiceCallbacks {
         Notification notification = new NotificationCompat.Builder(this, channelId)
                 .setContentTitle(null)
                 .setContentText(null)
-                .setUsesChronometer(true)
                 .build();
         ServiceCompat.startForeground(
                 this, // service
@@ -184,7 +181,6 @@ public class MicrophoneService extends Service implements ServiceCallbacks {
                 notification,
                 ServiceInfo.FOREGROUND_SERVICE_TYPE_MICROPHONE
         );
-        Log.d("GeoTerenowy", "Started foreground service");
     }
 
     private final class RecognizerThread extends Thread {
